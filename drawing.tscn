@@ -1,4 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://iq4n2i3qq8e"]
+[gd_scene load_steps=8 format=3 uid="uid://iq4n2i3qq8e"]
+
+[ext_resource type="Script" path="res://Camera3D.gd" id="1_x6vp8"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ufqdw"]
 size = Vector2(20, 20)
@@ -20,24 +22,26 @@ ambient_light_color = Color(1, 1, 1, 1)
 
 [node name="Drawing" type="Node"]
 
-[node name="Node3D" type="Node3D" parent="."]
+[node name="Scene0" type="Node3D" parent="."]
 
-[node name="Ground" type="MeshInstance3D" parent="Node3D"]
+[node name="Ground" type="MeshInstance3D" parent="Scene0"]
 mesh = SubResource("PlaneMesh_ufqdw")
 
-[node name="Object0" type="MeshInstance3D" parent="Node3D"]
+[node name="Object0" type="MeshInstance3D" parent="Scene0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
 mesh = SubResource("CylinderMesh_cj8ec")
 
-[node name="Object1" type="MeshInstance3D" parent="Node3D"]
+[node name="Object1" type="MeshInstance3D" parent="Scene0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("BoxMesh_67eck")
 
-[node name="CameraPivot" type="Node3D" parent="Node3D"]
+[node name="CameraPivot" type="Node3D" parent="Scene0"]
 transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 2, 2, -2)
 
-[node name="Camera3D" type="Camera3D" parent="Node3D/CameraPivot"]
+[node name="Camera3D" type="Camera3D" parent="Scene0/CameraPivot"]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866026, 0, 0, 0)
+script = ExtResource("1_x6vp8")
+pivot_path = NodePath("..")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Node3D"]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Scene0"]
 environment = SubResource("Environment_x1nj5")
