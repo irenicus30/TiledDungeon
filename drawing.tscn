@@ -1,0 +1,43 @@
+[gd_scene load_steps=7 format=3 uid="uid://iq4n2i3qq8e"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ufqdw"]
+size = Vector2(20, 20)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_cj8ec"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_67eck"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_la0m7"]
+
+[sub_resource type="Sky" id="Sky_fpx0u"]
+sky_material = SubResource("ProceduralSkyMaterial_la0m7")
+
+[sub_resource type="Environment" id="Environment_x1nj5"]
+background_mode = 2
+background_energy_multiplier = 3.0
+sky = SubResource("Sky_fpx0u")
+ambient_light_color = Color(1, 1, 1, 1)
+
+[node name="Drawing" type="Node"]
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Ground" type="MeshInstance3D" parent="Node3D"]
+mesh = SubResource("PlaneMesh_ufqdw")
+
+[node name="Object0" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+mesh = SubResource("CylinderMesh_cj8ec")
+
+[node name="Object1" type="MeshInstance3D" parent="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_67eck")
+
+[node name="CameraPivot" type="Node3D" parent="Node3D"]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 2, 2, -2)
+
+[node name="Camera3D" type="Camera3D" parent="Node3D/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866026, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Node3D"]
+environment = SubResource("Environment_x1nj5")
