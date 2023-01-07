@@ -1,0 +1,73 @@
+[gd_scene load_steps=12 format=3 uid="uid://sncsrm2ogvm0"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_yeo28"]
+[ext_resource type="Script" path="res://CameraController.gd" id="2_3qkq1"]
+[ext_resource type="MeshLibrary" uid="uid://bg6574gl7kf4h" path="res://tileset.tres" id="3_2p7nj"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_git40"]
+
+[sub_resource type="Sky" id="Sky_qc558"]
+sky_material = SubResource("ProceduralSkyMaterial_git40")
+
+[sub_resource type="Environment" id="Environment_gruy7"]
+background_mode = 2
+background_energy_multiplier = 10.0
+sky = SubResource("Sky_qc558")
+ambient_light_source = 3
+ambient_light_color = Color(0.721569, 0.721569, 0.721569, 1)
+reflected_light_source = 2
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2maki"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_v3g2s"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yggh3"]
+albedo_color = Color(1, 0.0509804, 0.0509804, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_h6txh"]
+size = Vector2(20, 20)
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_bw534"]
+
+[node name="World" type="Node"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_gruy7")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_yeo28")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("CapsuleShape3D_2maki")
+
+[node name="CameraPivot" type="Node3D" parent="Player/CollisionShape3D"]
+script = ExtResource("2_3qkq1")
+
+[node name="Camera" type="Camera3D" parent="Player/CollisionShape3D/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 2)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("CapsuleMesh_v3g2s")
+surface_material_override/0 = SubResource("StandardMaterial3D_yggh3")
+
+[node name="Ground" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.177784, 0)
+mesh = SubResource("PlaneMesh_h6txh")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Ground"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground/StaticBody3D"]
+shape = SubResource("WorldBoundaryShape3D_bw534")
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("3_2p7nj")
+cell_size = Vector3(1, 1, 1)
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(1, 0, 2, 0, 0, 2, 0, 65535, 2, 0, 65534, 2, 1, 65535, 2, 1, 65534, 2, 1, 65533, 2, 1, 65532, 2, 1, 65531, 2, 1, 65530, 2, 0, 65530, 2, 0, 65529, 2, 0, 65528, 2, 0, 65527, 2, 1, 65527, 2, 0, 65526, 2, 1, 65526, 2, 1, 65528, 2, 1, 65529, 2, 0, 65533, 2, 0, 65532, 2, 0, 65531, 2, 65534, 65535, 2, 2, 1, 1, 2, 2, 1441793, 1, 2, 1441793, 0, 2, 655360)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.26708, 1, 0)
